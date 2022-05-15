@@ -1,32 +1,49 @@
 package main
 
 import (
-	"log"
-
-	"github.com/aswcloud/server-backend-local/database"
 	"github.com/gin-gonic/gin"
 	"github.com/subosito/gotenv"
+
+	v1auth "github.com/aswcloud/server-backend-local/v1/auth"
+	v1deploy "github.com/aswcloud/server-backend-local/v1/deployment"
+	v1ns "github.com/aswcloud/server-backend-local/v1/namespace"
+	v1svc "github.com/aswcloud/server-backend-local/v1/service"
+	v1storage "github.com/aswcloud/server-backend-local/v1/storage"
 )
 
 func main() {
 	gotenv.Load()
 
-	database := database.New()
-	if !database.Connect() {
-		log.Println("database doesnt connect")
-		log.Panic()
-	}
-	database.Disconnect()
-
 	r := gin.Default()
-
 	r.Group("/v1")
 	{
-		ns := r.Group("namespace")
+		auth := r.Group("/auth")
 		{
-			ns.GET("/:user", func(ctx *gin.Context) {
-
-			})
+			auth.POST("/:user", v1auth.UserPost)
+		}
+		ns := r.Group("/namespace")
+		{
+			ns.GET("/:user", v1ns.Get)
+			ns.POST("/:user", v1ns.Post)
+			ns.DELETE("/:user", v1ns.Delete)
+		}
+		deploy := r.Group("/deployment")
+		{
+			deploy.GET("/:user", v1deploy.Get)
+			deploy.POST("/:user", v1deploy.Post)
+			deploy.DELETE("/:user", v1deploy.Delete)
+		}
+		svc := r.Group("/service")
+		{
+			svc.GET("/:user", v1svc.Get)
+			svc.POST("/:user", v1svc.Post)
+			svc.DELETE("/:user", v1svc.Delete)
+		}
+		storage := r.Group("/storage")
+		{
+			storage.GET("/:user", v1storage.Get)
+			storage.POST("/:user", v1storage.Post)
+			storage.DELETE("/:user", v1storage.Delete)
 		}
 	}
 
