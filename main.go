@@ -15,31 +15,32 @@ func main() {
 	gotenv.Load()
 
 	r := gin.Default()
-	r.Group("/v1")
+
+	v1 := r.Group("/v1")
 	{
-		auth := r.Group("/auth")
+		auth := v1.Group("/auth")
 		{
 			auth.POST("/:user", v1auth.UserPost)
 		}
-		ns := r.Group("/namespace")
+		ns := v1.Group("/namespace")
 		{
 			ns.GET("/:user", v1ns.Get)
 			ns.POST("/:user", v1ns.Post)
 			ns.DELETE("/:user", v1ns.Delete)
 		}
-		deploy := r.Group("/deployment")
+		deploy := v1.Group("/deployment")
 		{
 			deploy.GET("/:user", v1deploy.Get)
 			deploy.POST("/:user", v1deploy.Post)
 			deploy.DELETE("/:user", v1deploy.Delete)
 		}
-		svc := r.Group("/service")
+		svc := v1.Group("/service")
 		{
 			svc.GET("/:user", v1svc.Get)
 			svc.POST("/:user", v1svc.Post)
 			svc.DELETE("/:user", v1svc.Delete)
 		}
-		storage := r.Group("/storage")
+		storage := v1.Group("/storage")
 		{
 			storage.GET("/:user", v1storage.Get)
 			storage.POST("/:user", v1storage.Post)
