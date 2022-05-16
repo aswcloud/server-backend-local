@@ -58,13 +58,13 @@ func (self *Template) Delete(uuid string) error {
 	return err
 }
 
-func (self *Template) Update(uuid, name, json, imageId string) {
+func (self *Template) Update(uuid, name, json string) {
 	self.collection.UpdateOne(context.TODO(), bson.D{
 		{"uuid", uuid},
 	}, bson.D{
 		{"name", name},
 		{"json", json},
-		{"imageId", imageId},
+		// {"imageId", imageId},
 	})
 }
 

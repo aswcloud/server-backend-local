@@ -21,11 +21,25 @@ func Post(c *gin.Context) {
 		return
 	}
 
+	name := c.PostForm("name")
+	// base64 인코딩 됨.
+	jsonData := c.PostForm("json")
+	// rawJson, err := base64.StdEncoding.DecodeString(jsonData)
+
+	uuid, err := UploadFile(c)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"msg": err.Error(),
+		})
+	}
+
 	db := database.New()
 	db.Connect()
 	defer db.Disconnect()
 
+	db.Template().Add(name, jsonData, uuid)
+
 	c.JSON(http.StatusOK, gin.H{
-		"token": token,
+		"msg": "success",
 	})
 }

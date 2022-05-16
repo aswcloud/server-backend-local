@@ -34,7 +34,7 @@ func Delete(c *gin.Context) {
 		})
 	} else {
 		c.JSON(http.StatusOK, gin.H{
-			"msg": "성공적으로 삭제 하였습니다.",
+			"msg": "success",
 		})
 	}
 }

@@ -3,18 +3,17 @@ package admin
 import (
 	"fmt"
 	"log"
-	"net/http"
 
 	"github.com/aswcloud/server-backend-local/v1/auth"
 	"github.com/gin-gonic/gin"
 	"github.com/gofrs/uuid"
 )
 
-func uploadSingle(c *gin.Context, fileName string) (int, string) {
+func uploadSingle(c *gin.Context, fileName string) error {
 	// single file
 	file, err := c.FormFile("file")
 	if err != nil {
-		return http.StatusBadRequest, fmt.Sprintf("get form err: %s", err.Error())
+		return fmt.Errorf("get form err: %s", err.Error())
 	}
 
 	log.Println(file.Filename)
@@ -24,33 +23,28 @@ func uploadSingle(c *gin.Context, fileName string) (int, string) {
 	uploadPath := "./upload/" + fileName
 	log.Println(uploadPath)
 	if err := c.SaveUploadedFile(file, uploadPath); err != nil {
-		return http.StatusBadRequest, fmt.Sprintf("upload file err: %s", err.Error())
+		return fmt.Errorf("upload file err: %s", err.Error())
 	}
 
-	return http.StatusOK, "success"
+	return nil
 }
 
-func UploadFile(c *gin.Context) {
+func UploadFile(c *gin.Context) (string, error) {
 	role, err := auth.Authorization(c)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"msg": err.Error(),
-		})
-		return
+		return "", err
 	}
 	if role.Role != "admin" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"msg": "role id fail",
-		})
-		return
+		return "", fmt.Errorf("권한이 부족합니다.")
 	}
 	uuid, err := uuid.NewV4()
 	if err != nil {
 		log.Fatalf("failed to generate UUID: %v", err)
 	}
 
-	status, text := uploadSingle(c, uuid.String())
-	c.JSON(status, gin.H{
-		"msg": text,
-	})
+	if err := uploadSingle(c, uuid.String()); err != nil {
+		return "", err
+	}
+
+	return uuid.String(), nil
 }
