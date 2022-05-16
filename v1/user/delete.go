@@ -10,7 +10,6 @@ import (
 
 func Delete(c *gin.Context) {
 	bearer := strings.Split(c.GetHeader("Authorization"), " ")
-	// c.PostForm("phone")
 
 	if len(bearer) != 2 || bearer[0] != "Bearer" {
 		// return "", fmt.Errorf("Authorization: bearer not match")
