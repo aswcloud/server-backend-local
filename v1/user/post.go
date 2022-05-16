@@ -91,10 +91,10 @@ func jsonToK8s(jsonData string, id string) error {
 			createDeployment(data, channel)
 			break
 		case "svc":
-			createDeployment(data, channel)
+			createService(data, channel)
 			break
 		case "pvc":
-			createDeployment(data, channel)
+			CreatePersistentVolumeClaim(data, channel)
 			break
 		}
 	}
