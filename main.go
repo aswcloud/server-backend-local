@@ -4,11 +4,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/subosito/gotenv"
 
+	"github.com/aswcloud/server-backend-local/v1/admin"
 	v1auth "github.com/aswcloud/server-backend-local/v1/auth"
-	v1deploy "github.com/aswcloud/server-backend-local/v1/deployment"
-	v1ns "github.com/aswcloud/server-backend-local/v1/namespace"
-	v1svc "github.com/aswcloud/server-backend-local/v1/service"
-	v1storage "github.com/aswcloud/server-backend-local/v1/storage"
+	"github.com/aswcloud/server-backend-local/v1/user"
 )
 
 func main() {
@@ -22,29 +20,17 @@ func main() {
 		{
 			auth.POST("/:user", v1auth.UserPost)
 		}
-		ns := v1.Group("/namespace")
+		guser := v1.Group("/user")
 		{
-			ns.GET("/:user", v1ns.Get)
-			ns.POST("/:user", v1ns.Post)
-			ns.DELETE("/:user", v1ns.Delete)
+			guser.GET("/:user", user.Get)
+			guser.POST("/:user", user.Post)
+			guser.DELETE("/:user", user.Delete)
 		}
-		deploy := v1.Group("/deployment")
+		gadmin := v1.Group("/admin")
 		{
-			deploy.GET("/:user", v1deploy.Get)
-			deploy.POST("/:user", v1deploy.Post)
-			deploy.DELETE("/:user", v1deploy.Delete)
-		}
-		svc := v1.Group("/service")
-		{
-			svc.GET("/:user", v1svc.Get)
-			svc.POST("/:user", v1svc.Post)
-			svc.DELETE("/:user", v1svc.Delete)
-		}
-		storage := v1.Group("/storage")
-		{
-			storage.GET("/:user", v1storage.Get)
-			storage.POST("/:user", v1storage.Post)
-			storage.DELETE("/:user", v1storage.Delete)
+			gadmin.GET("/:user", admin.Get)
+			gadmin.POST("/:user", admin.Post)
+			gadmin.DELETE("/:user", admin.Delete)
 		}
 	}
 
