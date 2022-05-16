@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/subosito/gotenv"
@@ -14,6 +15,10 @@ import (
 
 func main() {
 	gotenv.Load()
+	if err := os.Mkdir("upload", os.ModePerm); err != nil {
+		log.Fatal(err)
+	}
+
 	db := database.New()
 	if !db.Connect() {
 		log.Fatal("Database Connection Fail")
