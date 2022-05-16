@@ -3,7 +3,7 @@ module github.com/aswcloud/server-backend-local
 go 1.18
 
 require (
-	github.com/aswcloud/idl v0.20.0
+	github.com/aswcloud/idl v0.22.0
 	github.com/gin-gonic/gin v1.7.7
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/subosito/gotenv v1.2.0

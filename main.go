@@ -22,10 +22,9 @@ func main() {
 		}
 		gadmin := v1.Group("/admin")
 		{
-			gadmin.GET("/:user", admin.Get)
-			gadmin.POST("/:user", admin.Post)
-			gadmin.DELETE("/:user", admin.Delete)
-			gadmin.POST("/upload", admin.UploadFile)
+			gadmin.GET("/template", admin.Get)
+			gadmin.POST("/template", admin.Post)
+			gadmin.DELETE("/template", admin.Delete)
 		}
 		guser := v1.Group("/user")
 		{
