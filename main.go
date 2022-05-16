@@ -1,9 +1,12 @@
 package main
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 	"github.com/subosito/gotenv"
 
+	"github.com/aswcloud/server-backend-local/database"
 	"github.com/aswcloud/server-backend-local/v1/admin"
 	v1auth "github.com/aswcloud/server-backend-local/v1/auth"
 	"github.com/aswcloud/server-backend-local/v1/user"
@@ -11,6 +14,12 @@ import (
 
 func main() {
 	gotenv.Load()
+	db := database.New()
+	if !db.Connect() {
+		log.Fatal("Database Connection Fail")
+		return
+	}
+	db.Disconnect()
 
 	r := gin.Default()
 
