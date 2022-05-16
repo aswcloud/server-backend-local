@@ -17,7 +17,9 @@ func Post(c *gin.Context) {
 		return
 	}
 	if role.Role != "admin" {
-		c.JSON(http.StatusBadRequest, "권한이 부족합니다.")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"msg": "권한이 부족합니다.",
+		})
 		return
 	}
 

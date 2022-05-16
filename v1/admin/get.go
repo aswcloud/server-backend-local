@@ -9,15 +9,11 @@ import (
 )
 
 func Get(c *gin.Context) {
-	role, err := auth.Authorization(c)
+	_, err := auth.Authorization(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"msg": err.Error(),
 		})
-		return
-	}
-	if role.Role != "admin" {
-		c.JSON(http.StatusBadRequest, "권한이 부족합니다.")
 		return
 	}
 

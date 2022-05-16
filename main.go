@@ -28,9 +28,9 @@ func main() {
 		}
 		guser := v1.Group("/user")
 		{
-			guser.GET("/:user", user.Get)
-			guser.POST("/:user", user.Post)
-			guser.DELETE("/:user", user.Delete)
+			guser.GET("/template", user.Get)
+			guser.POST("/template", user.Post)
+			guser.DELETE("/template", user.Delete)
 			guser.GET("/upload/:uuid", user.GetImage)
 		}
 	}

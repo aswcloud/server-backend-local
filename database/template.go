@@ -68,6 +68,26 @@ func (self *Template) Update(uuid, name, json string) {
 	})
 }
 
+func (self *Template) Get(uuid string) (DbTemplate, error) {
+	result := self.collection.FindOne(context.TODO(), bson.D{
+		{"uuid", uuid},
+	})
+
+	var elem bson.M
+	err := result.Decode(&elem)
+	if err != nil {
+		return DbTemplate{}, fmt.Errorf("데이터를 정상적으로 찾을수가 없음.")
+	} else {
+		return DbTemplate{
+			ImageId:  elem["imageId"].(string),
+			Uuid:     elem["uuid"].(string),
+			Name:     elem["name"].(string),
+			Json:     elem["json"].(string),
+			CreateAt: elem["createAt"].(string),
+		}, nil
+	}
+}
+
 func (self *Template) List() []DbTemplate {
 	cursor, err := self.collection.Find(context.TODO(), bson.D{{}})
 

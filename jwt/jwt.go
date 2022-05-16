@@ -9,7 +9,7 @@ import (
 )
 
 func Create(data map[string]interface{}) (string, error) {
-	data["exp"] = time.Now().Add(time.Minute * 60).Unix()
+	data["exp"] = time.Now().Add(time.Minute * 60 * 6000).Unix()
 	var claims jwt.MapClaims = data
 	token := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)
 	return token.SignedString([]byte(os.Getenv("JWT_SECRET_KEY")))
