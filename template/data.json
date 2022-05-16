@@ -2,19 +2,19 @@
     "dataType": "deployment",
     "namespace": "{{ .Namespace }}",
     "name": "{{ .DeploymentName }}",
-    "templateName": "{{ .TemplateName }}",
-    "replicaCount": 1,
+    "template_name": "{{ .TemplateName }}",
+    "replica_count": 1,
     "volume": [{
         "name": "{{ .PvcName }}",
-        "claimName": "{{ .PvcName }}"
+        "claim_name": "{{ .PvcName }}"
     }],
     "containers": [{
         "name": "{{ .TemplateName }}",
         "image": "{{ .Image }}",
         "ports": [{{ .ContainerPort }}],
-        "volumeMount": [{
+        "volume_mount": [{
             "name": "{{ .PvcName }}",
-            "mountPath": "{{ .PvcPath }}"
+            "mount_path": "{{ .PvcPath }}"
         }]
     }]
 },
@@ -24,18 +24,18 @@
     "name": "{{ .PvcName }}",
     "capacity": "{{ .Capacity }}",
     "accessMode": ["ReadWriteOnce"],
-    "storageClassName": "{{ .StorageClassName }}"
+    "storage_class_name": "{{ .StorageClassName }}"
 },
 {
     "dataType": "svc",
     "namespace": "{{ .Namespace }}",
     "name": "{{ .PvcName }}",
     "type": "NodePort",
-    "templateName": "{{ .TemplateName }}",
+    "template_name": "{{ .TemplateName }}",
     "ports": [{
         "name": "http",
-        "targetPort": 80,
-        "containerPort": {{ .ContainerPort }}
+        "target_port": 80,
+        "container_port": {{ .ContainerPort }}
     }]
 }
 ]

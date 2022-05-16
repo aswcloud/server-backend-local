@@ -1,6 +1,7 @@
 package user
 
 import (
+	"context"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -12,6 +13,7 @@ import (
 	"github.com/aswcloud/server-backend-local/v1/auth"
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
+	k8sjson "k8s.io/apimachinery/pkg/util/json"
 )
 
 func getGrpcClient() (pbk8s.KubernetesClient, error) {
@@ -26,14 +28,44 @@ func getGrpcClient() (pbk8s.KubernetesClient, error) {
 }
 
 func createDeployment(data map[string]interface{}, channel pbk8s.KubernetesClient) {
-
+	mdata, err := json.Marshal(data)
+	log.Println(mdata)
+	if err != nil {
+		log.Println(err)
+	}
+	var deploy pbk8s.Deployment
+	err = k8sjson.Unmarshal(mdata, &deploy)
+	if err != nil {
+		log.Println(err)
+	}
+	channel.CreateDeployment(context.TODO(), &deploy)
 }
 func createService(data map[string]interface{}, channel pbk8s.KubernetesClient) {
-
+	mdata, err := json.Marshal(data)
+	log.Println(mdata)
+	if err != nil {
+		log.Println(err)
+	}
+	var service pbk8s.Service
+	err = k8sjson.Unmarshal(mdata, &service)
+	if err != nil {
+		log.Println(err)
+	}
+	channel.CreateService(context.TODO(), &service)
 }
 
 func CreatePersistentVolumeClaim(data map[string]interface{}, channel pbk8s.KubernetesClient) {
-
+	mdata, err := json.Marshal(data)
+	log.Println(mdata)
+	if err != nil {
+		log.Println(err)
+	}
+	var pvc pbk8s.Pvc
+	err = k8sjson.Unmarshal(mdata, &pvc)
+	if err != nil {
+		log.Println(err)
+	}
+	channel.CreatePersistentVolumeClaim(context.TODO(), &pvc)
 }
 
 func jsonToK8s(jsonData string, id string) error {
