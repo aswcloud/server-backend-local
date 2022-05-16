@@ -1,0 +1,41 @@
+[{
+    "dataType": "deployment",
+    "namespace": "{{ .Namespace }}",
+    "name": "{{ .DeploymentName }}",
+    "templateName": "{{ .TemplateName }}",
+    "replicaCount": 1,
+    "volume": [{
+        "name": "{{ .PvcName }}",
+        "claimName": "{{ .PvcName }}"
+    }],
+    "containers": [{
+        "name": "{{ .TemplateName }}",
+        "image": "{{ .Image }}",
+        "ports": [{{ .ContainerPort }}],
+        "volumeMount": [{
+            "name": "{{ .PvcName }}",
+            "mountPath": "{{ .PvcPath }}"
+        }]
+    }]
+},
+{
+    "dataType": "pvc",
+    "namespace": "{{ .Namespace }}",
+    "name": "{{ .PvcName }}",
+    "capacity": "{{ .Capacity }}",
+    "accessMode": ["ReadWriteOnce"],
+    "storageClassName": "{{ .StorageClassName }}"
+},
+{
+    "dataType": "svc",
+    "namespace": "{{ .Namespace }}",
+    "name": "{{ .PvcName }}",
+    "type": "NodePort",
+    "templateName": "{{ .TemplateName }}",
+    "ports": [{
+        "name": "http",
+        "targetPort": 80,
+        "containerPort": {{ .ContainerPort }}
+    }]
+}
+]
