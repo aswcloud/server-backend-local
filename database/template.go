@@ -20,3 +20,7 @@ func (self *Template) Delete() {
 func (self *Template) Update() {
 
 }
+
+func (self *Template) List() {
+
+}

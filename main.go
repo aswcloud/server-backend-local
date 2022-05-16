@@ -16,21 +16,22 @@ func main() {
 
 	v1 := r.Group("/v1")
 	{
-		auth := v1.Group("/auth")
+		vauth := v1.Group("/auth")
 		{
-			auth.POST("/:user", v1auth.UserPost)
-		}
-		guser := v1.Group("/user")
-		{
-			guser.GET("/:user", user.Get)
-			guser.POST("/:user", user.Post)
-			guser.DELETE("/:user", user.Delete)
+			vauth.POST("/:user", v1auth.UserPost)
 		}
 		gadmin := v1.Group("/admin")
 		{
 			gadmin.GET("/:user", admin.Get)
 			gadmin.POST("/:user", admin.Post)
 			gadmin.DELETE("/:user", admin.Delete)
+			gadmin.POST("/upload", admin.UploadFile)
+		}
+		guser := v1.Group("/user")
+		{
+			guser.GET("/:user", user.Get)
+			guser.POST("/:user", user.Post)
+			guser.DELETE("/:user", user.Delete)
 		}
 	}
 
