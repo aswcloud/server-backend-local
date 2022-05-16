@@ -3,12 +3,12 @@ package template
 import (
 	"encoding/json"
 	"log"
+	"math/rand"
 	"os"
+	"strconv"
 	"strings"
 
 	temp "text/template"
-
-	"github.com/gofrs/uuid"
 )
 
 type k8sTemplate struct {
@@ -23,19 +23,27 @@ type k8sTemplate struct {
 	ContainerPort    int    `json:"containerPort"`
 }
 
+func Uuid(len int) string {
+	result := ""
+	for i := 0; i < len; i++ {
+		result += strconv.Itoa(int(rand.Int31n(10)))
+	}
+	return result
+}
+
 func ConvertJsonToTemplate(jsonData string, id string) (string, error) {
 	dbjson := k8sTemplate{}
 	err := json.Unmarshal([]byte(jsonData), &dbjson)
 	log.Println(dbjson)
 	dbjson.Namespace = id
-	uuid, err := uuid.NewV4()
+	uuid := Uuid(8)
 	if err != nil {
 		return "", err
 	}
 
-	dbjson.DeploymentName += ("-" + id + "-" + uuid.String())
-	dbjson.TemplateName += ("-" + id + "-" + uuid.String())
-	dbjson.PvcName += ("-" + id + "-" + uuid.String())
+	dbjson.DeploymentName += ("-" + id + "-" + uuid)
+	dbjson.TemplateName += ("-" + id + "-" + uuid)
+	dbjson.PvcName += ("-" + id + "-" + uuid)
 
 	a := temp.New("test")
 	data, err := os.ReadFile("./template/data.json")

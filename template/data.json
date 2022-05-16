@@ -23,13 +23,13 @@
     "namespace": "{{ .Namespace }}",
     "name": "{{ .PvcName }}",
     "capacity": "{{ .Capacity }}",
-    "accessMode": ["ReadWriteOnce"],
+    "access_mode": ["ReadWriteOnce"],
     "storage_class_name": "{{ .StorageClassName }}"
 },
 {
     "dataType": "svc",
     "namespace": "{{ .Namespace }}",
-    "name": "{{ .PvcName }}",
+    "name": "{{ .DeploymentName }}-service",
     "type": "NodePort",
     "template_name": "{{ .TemplateName }}",
     "ports": [{

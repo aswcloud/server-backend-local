@@ -56,7 +56,7 @@ func createService(data map[string]interface{}, channel pbk8s.KubernetesClient) 
 
 func CreatePersistentVolumeClaim(data map[string]interface{}, channel pbk8s.KubernetesClient) {
 	mdata, err := json.Marshal(data)
-	log.Println(mdata)
+	log.Println(string(mdata))
 	if err != nil {
 		log.Println(err)
 	}
