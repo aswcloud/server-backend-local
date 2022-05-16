@@ -7,6 +7,7 @@ import (
 
 	"github.com/aswcloud/server-backend-local/v1/auth"
 	"github.com/gin-gonic/gin"
+	"github.com/gofrs/uuid"
 )
 
 func uploadSingle(c *gin.Context, fileName string) (int, string) {
@@ -43,8 +44,12 @@ func UploadFile(c *gin.Context) {
 		})
 		return
 	}
+	uuid, err := uuid.NewV4()
+	if err != nil {
+		log.Fatalf("failed to generate UUID: %v", err)
+	}
 
-	status, text := uploadSingle(c, "123.txt")
+	status, text := uploadSingle(c, uuid.String())
 	c.JSON(status, gin.H{
 		"msg": text,
 	})

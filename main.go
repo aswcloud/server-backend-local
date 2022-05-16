@@ -32,6 +32,7 @@ func main() {
 			guser.GET("/:user", user.Get)
 			guser.POST("/:user", user.Post)
 			guser.DELETE("/:user", user.Delete)
+			guser.GET("/upload/:uuid", user.GetImage)
 		}
 	}
 
