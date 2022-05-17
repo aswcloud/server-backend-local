@@ -33,6 +33,7 @@ func Post(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"msg": err.Error(),
 		})
+		return
 	}
 
 	db := database.New()
